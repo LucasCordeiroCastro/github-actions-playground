@@ -12,31 +12,47 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react-code-demo
     steps:
       - name: Get code
         uses: actions/checkout@v4
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install NodeJS
         uses: actions/setup-node@v4
         with:
             node-version: 18
       - name: Install dependencies
-        run: cd react-code-demo && npm ci
+        run: npm ci
       - name: Run tests
-        run: cd react-code-demo && npm test
+        run: npm test
   
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react-code-demo
     steps:
       - name: Get code
         uses: actions/checkout@v4
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install NodeJS
         uses: actions/setup-node@v4
         with:
             node-version: 18
       - name: Install dependencies
-        run: cd react-code-demo && npm ci
+        run: npm ci
       - name: Build project
-        run: cd react-code-demo && npm run build
+        run: npm run build
       - name: Deploy
         run: echo "Deploying..."
