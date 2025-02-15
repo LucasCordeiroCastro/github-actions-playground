@@ -22,7 +22,7 @@ jobs:
         id: cache
         uses: actions/cache@v4
         with:
-          path: node_modules
+          path: react-code-demo/node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -41,7 +41,7 @@ jobs:
         id: cache
         uses: actions/cache@v4
         with:
-          path: node_modules
+          path: react-code-demo/node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -68,7 +68,7 @@ jobs:
         id: cache
         uses: actions/cache@v4
         with:
-          path: node_modules
+          path: react-code-demo/node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -84,14 +84,11 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: react-code-demo
     steps:
       - name: Get build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: react-code-demo/dist-files
+          name: dist-files
       - name: Output contents
         run: ls
       - name: Deploy
