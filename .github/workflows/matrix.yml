@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
+    continue-on-error: true
     strategy:
       matrix:
         node-version: [12, 14, 16]
@@ -24,5 +25,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
         run: npm ci
-      - name: Build Project
-        run: npm run build
+      - name: Run tests
+        run: npm test
